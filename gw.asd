@@ -10,5 +10,9 @@
   :depends-on (opengl sdl cffi)
   :components ((:file "gettimeofday")
                (:file "package" :depends-on ("gettimeofday"))
-               (:file "game" :depends-on ("package"))
-               (:file "main" :depends-on ("package" "game"))))
+               (:file "support" :depends-on ("package"))
+               (:file "enemies" :depends-on ("package" "support"))
+               (:file "spawn-patterns" :depends-on ("support"))
+               (:file "game" :depends-on ("enemies" "spawn-patterns"))
+               (:file "main" :depends-on ("game" ))))
+
