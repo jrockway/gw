@@ -1,4 +1,3 @@
-
 (in-package :cl-user)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -6,4 +5,7 @@
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (asdf:operate 'asdf:load-op :gw))
-(gw:start)
+
+(progn
+  (gw:start)
+  (quit))
