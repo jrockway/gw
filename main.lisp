@@ -36,7 +36,7 @@
                    (gl:clear-color 0.0f0 0.0f0 0.0f0 1.0f0)
                    (gl:clear gl:+color-buffer-bit+)
                    (loop for object in (objects state) do
-                        (draw state object))
+                        (current-representation state object))
                    (sdl:gl-swap-buffers))))))
 
 (defun start nil

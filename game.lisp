@@ -1,6 +1,6 @@
 (in-package #:gw)
 
-(defclass game-state (timed-life)
+(defclass game-state (has-time-alive)
   ((current-fps :accessor current-fps :initform 0)
    (score :accessor score :initform 0 :type integer)
    (lives :accessor lives :initform 3 :type unsigned-byte)
@@ -20,6 +20,6 @@
             (division-by-zero (e) 0)))))
 
 (defgeneric add-object (state object))
-(defmethod add-object ((state game-state) (object drawable-object))
+(defmethod add-object ((state game-state) (object has-representation))
   (setf (creation-time object) (current-time state))
   (setf (objects state) (cons object (objects state))))

@@ -1,10 +1,10 @@
 (in-package #:gw)
 
-(defclass colorful-triangle (drawable-object)
+(defclass colorful-triangle (has-time-alive has-representation)
   ((spawned-p :accessor spawned-p :initform nil)
    (offset :accessor offset :type float :initform 0.5 :initarg :offset)))
 
-(defmethod draw ((state game-state) (object colorful-triangle))
+(defmethod current-representation ((state game-state) (object colorful-triangle))
   (when (and
          (not (spawned-p object))
          (> (time-alive object) 0.003))
@@ -28,10 +28,10 @@
     (gl:vertex-2f  0.1f0 0.00f0)
     (gl:end)))
 
-(defclass fps-monitor (drawable-object)
+(defclass fps-monitor (has-time-alive has-representation)
   ((last-printed :accessor last-printed :initform 0)))
 
-(defmethod draw ((state game-state) (object fps-monitor))
+(defmethod current-representation ((state game-state) (object fps-monitor))
   (when (> (- (current-time object) (last-printed object)) 5)
     (format t "current fps: ~d~%" (coerce (current-fps state) 'float))
     (format t "live object count: ~d~%" (length (objects state)))
