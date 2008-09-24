@@ -7,11 +7,12 @@
 
 (defsystem gw
   :name "gw"
-  :depends-on (opengl sdl cffi)
+  :depends-on (opengl sdl cffi cl-colors)
   :components ((:file "gettimeofday")
                (:file "package" :depends-on ("gettimeofday"))
                (:file "support" :depends-on ("package"))
-               (:file "enemies" :depends-on ("package" "support"))
+               (:file "draw" :depends-on ("support"))
+               (:file "enemies" :depends-on ("draw"))
                (:file "spawn-patterns" :depends-on ("support"))
                (:file "game" :depends-on ("enemies" "spawn-patterns"))
                (:file "main" :depends-on ("game" ))))

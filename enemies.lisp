@@ -5,34 +5,19 @@
    (offset :accessor offset :type float :initform 0.5 :initarg :offset)))
 
 (defmethod current-representation ((state game-state) (object colorful-triangle))
-  (when (and
-         (not (spawned-p object))
-         (> (time-alive object) 0.003))
-    (add-object state (make-instance 'colorful-triangle
-                                     :offset (/ (random 1000) 1000)))
-    (setf (spawned-p object) t))
-
-  (let* ((theta (time-alive object))
-         (offset (offset object))
-         (pos-x (* offset (cos theta)))
-         (pos-y (* offset (sin theta))))
-    (gl:matrix-mode gl:+modelview+)
-    (gl:load-identity)
-    (gl:translate-f pos-x pos-y 0.0f0)
-    (gl:begin gl:+triangles+)
-    (gl:color-3f 0.0f0 1.0f0 0.0f0)
-    (gl:vertex-2f -0.1f0 0.00f0)
-    (gl:color-3f 1.0f0 0.0f0 0.0f0)
-    (gl:vertex-2f  0.00f0 0.2f0)
-    (gl:color-3f 0.0f0 0.0f0 1.0f0)
-    (gl:vertex-2f  0.1f0 0.00f0)
-    (gl:end)))
+  (make-instance 'closed-path
+      :points
+      (list (make-instance 'vertex :x 0  :y 0 :color cl-colors:+red+)
+            (make-instance 'vertex :x 0  :y 1 :color cl-colors:+green+)
+            (make-instance 'vertex :x 1  :y 0 :color cl-colors:+blue+))))
 
 (defclass fps-monitor (has-time-alive has-representation)
   ((last-printed :accessor last-printed :initform 0)))
 
 (defmethod current-representation ((state game-state) (object fps-monitor))
   (when (> (- (current-time object) (last-printed object)) 5)
-    (format t "current fps: ~d~%" (coerce (current-fps state) 'float))
-    (format t "live object count: ~d~%" (length (objects state)))
-    (setf (last-printed object) (current-time object))))
+    (setf (last-printed object) (current-time object))
+    (make-instance 'debug-message
+                   :text (format nil "current fps: ~d~%live object count: ~d~%"
+                                 (coerce (current-fps state) 'float)
+                                 (length (objects state))))))
