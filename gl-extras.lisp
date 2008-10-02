@@ -8,6 +8,7 @@
 
 ;(declaim (inline double define-gl-vertex))
 (defun double (number) (coerce number 'double-float))
+(defun degrees (radians) (* radians (/ 180 pi)))
 
 ;; gl:color-*f but with a cl-color instead of 3 or 4 numbers
 ;; need to move this into the GL namespace.
