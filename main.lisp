@@ -5,9 +5,10 @@
   (sdl:set-gl-attributes :red-size 4 :blue-size 4 :green-size 4
 			 :doublebuffer 1 :depth-size 16)
 
-  (sdl:set-video-mode
-   640 480 16
-   (logior sdl:+opengl+ sdl:+resizable+))
+  (let ((w 959)(h 1180))
+    (sdl:set-video-mode w h 16
+                        (logior sdl:+opengl+ sdl:+resizable+))
+    (gl:viewport 0 0 w h))
   (sdl:wm-set-caption "GW" nil))
 
 (defun run-sdl-event-loop ()
@@ -27,8 +28,10 @@
             (progn (tick state)
                    (gl:clear-color 0.0f0 0.0f0 0.0f0 1.0f0)
                    (gl:clear gl:+color-buffer-bit+)
-                   (loop for object in (objects state) do
-                        (draw (current-representation state object)))
+                   (gl:load-identity)
+                   (gl:ortho -20.0d0 20.0d0 -20.0d0 20.0d0 -1.0d0 1.0d0)
+                   (loop for object in (objects state)
+                      do (draw (current-representation state object)))
                    (sdl:gl-swap-buffers))))))
 
 (defun start nil

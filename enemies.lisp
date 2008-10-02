@@ -5,11 +5,13 @@
    (offset :accessor offset :type float :initform 0.5 :initarg :offset)))
 
 (defmethod current-representation ((state game-state) (object colorful-triangle))
-  (make-instance 'closed-path
-      :points
-      (list (make-instance 'vertex :x 0  :y 0 :color cl-colors:+red+)
-            (make-instance 'vertex :x 0  :y 1 :color cl-colors:+green+)
-            (make-instance 'vertex :x 1  :y 0 :color cl-colors:+blue+))))
+  (make-instance 'translate :x -0.5 :y 0 :inner-object
+    (make-instance 'rotate :angle (* 10 (mod (time-alive object) 360)) :inner-object
+      (make-instance 'closed-path
+        :points
+        (list (make-instance 'vertex :x 0  :y 0 :color cl-colors:+red+)
+              (make-instance 'vertex :x 0  :y 1 :color cl-colors:+green+)
+              (make-instance 'vertex :x 1  :y 0 :color cl-colors:+blue+))))))
 
 (defclass fps-monitor (has-time-alive has-representation)
   ((last-printed :accessor last-printed :initform 0)))
