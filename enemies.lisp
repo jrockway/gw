@@ -1,5 +1,7 @@
 (in-package #:gw)
 
+(defconstant +joystick-max+ 32768)
+
 (defclass has-position nil
   ((x :accessor x :initform 0 :initarg :x)
    (y :accessor y :initform 0 :initarg :y)))
@@ -11,8 +13,8 @@
 
 (defmethod tick :after ((self colorful-triangle))
   (let ((time (time-since-last-tick self))
-        (x-speed (/ (x (left-joystick (game-state self))) 32768))
-        (y-speed (/ (y (left-joystick (game-state self))) 32768))
+        (x-speed (/ (x (left-joystick (game-state self))) +joystick-max+))
+        (y-speed (/ (y (left-joystick (game-state self))) +joystick-max+))
         (max-speed 8d0))
 
     (incf (x self) (* x-speed max-speed time))

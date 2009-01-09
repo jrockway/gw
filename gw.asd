@@ -16,5 +16,4 @@
                (:file "enemies" :depends-on ("draw"))
                (:file "spawn-patterns" :depends-on ("support"))
                (:file "game" :depends-on ("enemies" "spawn-patterns"))
-               (:file "main" :depends-on ("game" ))))
-
+               (:file "main" :depends-on ("game"))))
